@@ -16,8 +16,25 @@
 	</style>
 </head>
 <body>
+	<form method="post">
+		<select name="actif">
+				<option>Active account</option>
+				<option>Waiting for account validation</option>
+			</select>
+			
+			<input type="text" name="nom" />
+
+			<input type="submit" />
+	</form>
+		<table> 
+			<tr class="entete"> 
+				<th> Id </th> 
+				<th> Username </th> 
+				<th> Email </th> 
+				<th> Status </th> 
+			</tr>
 	<?php
-	
+		if (isset($_POST['actif']) && isset($_POST['nom'])) {
 		/* initialisation des différentes variables du PDO */
 		$host = 'localhost';
 		$db   = 'my_activities';
@@ -41,29 +58,19 @@
 			throw new PDOException($e->getMessage(), (int)$e->getCode());
 		}
 		
-		$stmt = $pdo->query("SELECT users.id as users_id, email, username, name 
-							 FROM users 
-							 JOIN status ON users.status_id = status.id 
-							 WHERE username LIKE 'e%'	AND users.status_id = '2'						 
-							 ORDER BY username");
-	?>
-		<table> 
-			<tr class="entete"> 
-				<th> Id </th> 
-				<th> Username </th> 
-				<th> Email </th> 
-				<th> Status </th> 
-			</tr>
-	<?php
-				while ($row = $stmt->fetch())
+		$stmt = $pdo->prepare('SELECT * FROM users AS u JOIN status AS s ON u.status_id=s.id WHERE s.name = ? AND u.username LIKE ? ORDER BY username');
+		$stmt->execute([$_POST['actif'],$_POST['nom'].'%']);	
+	
+		while ($row = $stmt->fetch())
 		{
-			echo "<tr>
-			        <td> $row[users_id] </td> 
-					<td> $row[username] </td>
-					<td> $row[email] </td>
-					<td> $row[name] </td>
-				 </tr>" ;
+				echo '<tr>';
+				echo '<td>'.$row['id'].'</td>';
+				echo '<td>'.$row['username'].'</td>';
+				echo '<td>'.$row['email'].'</td>';
+				echo '<td>'.$row['name'].'</td>';
+				echo '</tr>';
 		}
+	}
 	?>
 		</table>
 </body>

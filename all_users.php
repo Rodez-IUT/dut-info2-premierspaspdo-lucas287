@@ -41,7 +41,11 @@
 			throw new PDOException($e->getMessage(), (int)$e->getCode());
 		}
 		
-		$stmt = $pdo->query('SELECT users.id as user_id, username, email, s.name as status FROM users JOIN status s ON users.status_id = s.id ORDER BY username ASC');
+		$stmt = $pdo->query("SELECT users.id as users_id, email, username, name 
+							 FROM users 
+							 JOIN status ON users.status_id = status.id 
+							 WHERE username LIKE 'e%'	AND users.status_id = '2'						 
+							 ORDER BY username");
 	?>
 		<table> 
 			<tr class="entete"> 
@@ -51,11 +55,16 @@
 				<th> Status </th> 
 			</tr>
 	<?php
-		while ($row = $stmt->fetch()) {
-			echo "<tr> <td>" . $row['user_id'] . "</td> <td>" .$row['username'] . "</td> <td>" . $row['email']; 
-			echo "</td> <td>" . $row['status']  . "</td> </tr>";
+				while ($row = $stmt->fetch())
+		{
+			echo "<tr>
+			        <td> $row[users_id] </td> 
+					<td> $row[username] </td>
+					<td> $row[email] </td>
+					<td> $row[name] </td>
+				 </tr>" ;
 		}
-		echo "</table>";
 	?>
+		</table>
 </body>
 </html>

@@ -32,7 +32,6 @@ CREATE TABLE `status` (
   UNIQUE KEY `status_id_uindex` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
 
 INSERT INTO `status` (`id`, `name`)
@@ -42,7 +41,7 @@ VALUES
 	(3,'Waiting for account deletion');
 
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 
 # Affichage de la table users
@@ -61,7 +60,7 @@ CREATE TABLE `users` (
   CONSTRAINT `user_status__fk` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `users` WRITE;
+
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
 INSERT INTO `users` (`username`, `id`, `email`, `status_id`)
@@ -79,7 +78,6 @@ VALUES
 	('francoises',11,'francoises@quaidesbrumes.org',3);
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 

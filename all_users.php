@@ -20,12 +20,11 @@
 <?php
 // Connexion to the database
 $host = 'localhost';
-$port = '8889';
 $db = 'my_activities';
 $user = 'root';
 $pass = 'root';
 $charset = 'utf8mb4';
-$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -78,7 +77,7 @@ function askDeletion($pdo){
 <form action="all_users.php" method="get">
     <input hidden name="action" value="searchUsers">
     Start with letter:
-    <input name="start_letter" type="text" value="<?php echo $_GET["start_letter"] ?>">
+    <input name="start_letter" type="text" value="<?php echo get("start_letter") ?>">
     and status is:
     <select name="status_id">
         <option value="1" <?php if (get('status_id') == 1) echo 'selected' ?>>Waiting for account validation</option>
